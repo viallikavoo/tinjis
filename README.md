@@ -27,7 +27,7 @@ On top of that, we would like to see Kubernetes scripts for deploying both Antae
 3. Your service will be called if you invoke `/rest/v1/invoices/pay` call on Antaeus. You can probably figure out which call returns the current status invoices by looking at the code ;)
 4. Kubernetes: Provide deployment scripts for both Antaeus and your service. Don't forget about Service resources so we can call Antaeus from outside the cluster and check the results.
     - Bonus points if your scripts use liveness/readiness probes.
-5. Discussions bonus points: Use the README file to discuss how this setup could be improved for production environments. We're especially interested in:
+5. *Discussions bonus points:* Use the README file to discuss how this setup could be improved for production environments. We're especially interested in:
     1. How would a new deployment look like for these services? What kind of tools would you use?
     2. If a developers needs to push updates to just one of the services, how can we grant that permission without allowing the same developer to deploy any other services running in K8s?
     3. How do we prevent other services running in the cluster to talk to your service. Only Antaeus should be able to do it.
