@@ -1,55 +1,47 @@
-## Antaeus
+# Preface
 
-Antaeus (/ænˈtiːəs/), in Greek mythology, a giant of Libya, the son of the sea god Poseidon and the Earth goddess Gaia. He compelled all strangers who were passing through the country to wrestle with him. Whenever Antaeus touched the Earth (his mother), his strength was renewed, so that even if thrown to the ground, he was invincible. Heracles, in combat with him, discovered the source of his strength and, lifting him up from Earth, crushed him to death.
+We're really happy that you're considering to join us! Here's a challenge that will help us understand your skills and serve as a starting discussion point for the interview.
 
-Welcome to our challenge.
+We're not expecting that everything will be done perfectly as we value your time. You're encouraged to point out possible improvements during the interview though!
+
+Have fun!
 
 ## The challenge
 
-As most "Software as a Service" (SaaS) companies, Pleo needs to charge a subscription fee every month. Our database contains a few invoices for the different markets in which we operate. Your task is to build the logic that will pay those invoices on the first of the month. While this may seem simple, there is space for some decisions to be taken and you will be expected to justify them.
+Pleo runs most of its infrastructure in Kubernetes. It's a bunch of microservices talking to each other and performing various tasks like verifying card transactions, moving money around, paying invoices ...
 
-### Structure
-The code given is structured as follows. Feel free however to modify the structure to fit your needs.
-```
-├── pleo-antaeus-app
-|
-|       Packages containing the main() application. 
-|       This is where all the dependencies are instantiated.
-|
-├── pleo-antaeus-core
-|
-|       This is where you will introduce most of your new code.
-|       Pay attention to the PaymentProvider and BillingService class.
-|
-├── pleo-antaeus-data
-|
-|       Module interfacing with the database. Contains the models, mappings and access layer.
-|
-├── pleo-antaeus-models
-|
-|       Definition of models used throughout the application.
-|
-├── pleo-antaeus-rest
-|
-|        Entry point for REST API. This is where the routes are defined.
-└──
-```
+We would like to see that you both:
+- Know how to create a small microservice
+- Know how to wire it together with other services running in Kubernetes
+
+We're providing you with a small service (Antaeus) written in Kotlin that's used to charge a monthly subscription to our customers. The trick is, this service needs to call an external payment provider to make a charge and this is where you come in.
+
+You're expected to create a small payment microservice that Antaeus can call to pay the invoices. You can use the language of your choice. Your service should randomly succeed/fail to pay the invoice.
+
+On top of that, we would like to see Kubernetes scripts for deploying both Antaeus and your service into the cluster. This is how we will test that the solution works.
 
 ## Instructions
-Fork this repo with your solution. We want to see your progression through commits (don’t commit the entire solution in 1 step) and don't forget to create a README.md to explain your thought process.
 
-Please let us know how long the challenge takes you. We're not looking for how speedy or lengthy you are. It's just really to give us a clearer idea of what you've produced in the time you decided to take. Feel free to go as big or as small as you want.
-
-Happy hacking 😁!
+1. Build and test Antaeus to make sure you know how the API works. We're providing a `docker-compose.yml` file that should help you run the app locally.
+2. Create your own service that Antaeus will use to pay the invoices. Use the `PAYMENT_PROVIDER_ENDPOINT` env variable to point Antaeus to your service.
+3. Your service will be called if you invoke `/rest/v1/invoices/pay` call on Antaeus. You can probably figure out which call returns the current status invoices by looking at the code ;)
+4. Kubernetes: Provide deployment scripts for both Antaeus and your service. Don't forget about Service resources so we can call Antaeus from outside the cluster and check the results.
+    - Bonus points if your scripts use liveness/readiness probes.
+5. Discussions bonus points: Use the README file to discuss how this setup could be improved for production environments. We're especially interested in:
+    1. How would a new deployment look like for these services? What kind of tools would you use?
+    2. If a developers needs to push updates to just one of the services, how can we grant that permission without allowing the same developer to deploy any other services running in K8s?
+    3. How do we prevent other services running in the cluster to talk to your service. Only Antaeus should be able to do it.
 
 ## How to run
-```
-./docker-start.sh
-```
 
-## Libraries currently in use
-* [Exposed](https://github.com/JetBrains/Exposed) - DSL for type-safe SQL
-* [Javalin](https://javalin.io/) - Simple web framework (for REST)
-* [kotlin-logging](https://github.com/MicroUtils/kotlin-logging) - Simple logging framework for Kotlin
-* [JUnit 5](https://junit.org/junit5/) - Testing framework
-* [Mockk](https://mockk.io/) - Mocking library
+If you want to run Antaeus locally, we've prepared a docker compose file that should help you do it. Just run:
+```
+docker-compose up
+```
+and the app should build and start running (after a few minutes when gradle does its job)
+
+## How we'll test the solution
+
+1. We will use your scripts to deploy both services to our Kubernetes cluster.
+2. Run the pay endpoint on Antaeus to try and pay the invoices using your service.
+3. Fetch all the invoices from Antaeus and confirm that roughly 50% (remember, your app should randomly fail on some of the invoices) of them will have status "PAID".
