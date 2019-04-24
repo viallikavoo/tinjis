@@ -10,5 +10,4 @@ docker run \
   --rm \
   --interactive \
   --tty \
-  --volume pleo-antaeus-build-cache:/home/pleo/.gradle \
   pleo-antaeus

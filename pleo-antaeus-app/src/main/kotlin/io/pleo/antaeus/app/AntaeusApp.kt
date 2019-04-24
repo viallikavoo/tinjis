@@ -62,7 +62,8 @@ fun main() {
     AntaeusRest(
         invoiceService = invoiceService,
         customerService = customerService,
-        paymentProvider = paymentProvider
-    ).run(servicePort)
+        paymentProvider = paymentProvider,
+        port = servicePort
+    ).run()
 }
 

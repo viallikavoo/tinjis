@@ -21,11 +21,12 @@ private val logger = KotlinLogging.logger {}
 class AntaeusRest (
     private val invoiceService: InvoiceService,
     private val customerService: CustomerService,
-    private val paymentProvider: PaymentProvider
+    private val paymentProvider: PaymentProvider,
+    private val port: Int
 ) : Runnable {
 
-    override fun run(port: Int) {
-        app.start(port)
+    override fun run() {
+        app.start(this.port)
     }
 
     // Set up Javalin rest app
