@@ -19,7 +19,7 @@ RUN ./gradlew build && ./gradlew test
 FROM adoptopenjdk/openjdk11:latest
 
 # Expose the app port.
-EXPOSE 7000
+EXPOSE 8000
 
 # Create homedir
 RUN mkdir /home/pleo
