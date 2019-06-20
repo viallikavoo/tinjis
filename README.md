@@ -67,8 +67,9 @@ chmod +x build.sh
 ```
 
 1. How would a new deployment look like for these services? What kind of tools would you use?
+
 [Refer to this diagram ](https://github.com/viallikavoo/tinjis/blob/master/pleo.png)
-Inline-style:
+Snippet here:
 ![alt text](https://github.com/viallikavoo/tinjis/blob/master/pleo.png)
 
 2. If a developers needs to push updates to just one of the services, how can we grant that permission without allowing the same developer to deploy any other services running in K8s?
