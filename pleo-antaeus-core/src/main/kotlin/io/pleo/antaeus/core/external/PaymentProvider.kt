@@ -9,7 +9,8 @@
 package io.pleo.antaeus.core.external
 
 import io.pleo.antaeus.models.Invoice
-
+import mu.KotlinLogging
+private val logger = KotlinLogging.logger {}
 class PaymentProvider(
         private val paymentProviderRestEndpoint: String
 ) {
@@ -27,6 +28,7 @@ class PaymentProvider(
      */
 
     fun charge(invoice: Invoice): Boolean {
+        logger.info(this.paymentProviderRestEndpoint) { "payment endpoint" }
         return khttp
                 .post(url = this.paymentProviderRestEndpoint,
                         json = mapOf(

@@ -25,7 +25,7 @@ import java.sql.Connection
 
 fun main() {
     // This is the external endpoint we will use for the payment provider
-    val paymentProviderRestEndpoint = System.getenv("PAYMENT_PROVIDER_ENDPOINT") ?: "http://localhost:9000"
+    val paymentProviderRestEndpoint = System.getenv("PAYMENT_PROVIDER_ENDPOINT")
     val servicePort = 8000
 
     // The tables to create in the database.
@@ -66,4 +66,3 @@ fun main() {
         port = servicePort
     ).run()
 }
-

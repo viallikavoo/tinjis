@@ -1,0 +1,51 @@
+# tinjis.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tinjis
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8000
+  selector:
+    app: tinjis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tinjis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tinjis
+  template:
+    metadata:
+      labels:
+        app: tinjis
+    spec:
+      containers:
+      - name: tinjis
+        image: viallikavoo/tinjis:latest
+        resources:
+          limits:
+            memory: "800Mi"
+            cpu: "1"
+          requests:
+            memory: "500Mi"
+            cpu: "0.5"
+        ports:
+        - containerPort: 8000
+        env:
+        - name: PAYMENT_PROVIDER_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: tinjis-config-map
+              key: PAYMENT_PROVIDER_ENDPOINT
+        - name: BACKEND_VENDOR_PAYMENTS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: tinjis-secret
+              key: BACKEND_VENDOR_PAYMENTS_API_KEY
