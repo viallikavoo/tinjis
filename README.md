@@ -69,6 +69,7 @@ chmod +x build.sh
 1. How would a new deployment look like for these services? What kind of tools would you use?
 
 [Refer to this diagram ](https://github.com/viallikavoo/tinjis/blob/master/pleo.png)
+
 Snippet here:
 ![alt text](https://github.com/viallikavoo/tinjis/blob/master/pleo.png)
 
