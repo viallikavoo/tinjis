@@ -44,6 +44,16 @@ spec:
             configMapKeyRef:
               name: tinjis-config-map
               key: PAYMENT_PROVIDER_ENDPOINT
+        - name: ENV_VAR1
+          valueFrom:
+            configMapKeyRef:
+              name: tinjis-config-map
+              key: ENV_VAR1
+        - name: ENV_VAR2
+          valueFrom:
+            configMapKeyRef:
+              name: tinjis-config-map
+              key: ENV_VAR2
         - name: BACKEND_VENDOR_PAYMENTS_API_KEY
           valueFrom:
             secretKeyRef:

@@ -47,3 +47,28 @@ and the app should build and start running (after a few minutes when gradle does
 1. We will use your scripts to deploy both services to our Kubernetes cluster.
 2. Run the pay endpoint on Antaeus to try and pay the invoices using your service.
 3. Fetch all the invoices from Antaeus and confirm that roughly 50% (remember, your app should randomly fail on some of the invoices) of them will have status "PAID".
+
+## Solution
+###Assumptions
+1. Terminal with bash
+2. git
+3. kubectl command line configured to point to your kubernetes cluster(i used minikube in my setup)
+4. docker
+
+```
+git clone git@github.com:viallikavoo/tinjis.git
+git clone git@github.com:viallikavoo/backend-vendor-payments.git
+cd tinjis
+chmod +x build.sh
+./build.sh <your_kubernetes_namespace>
+cd ../backend-vendor-payments
+chmod +x build.sh
+./build.sh <your_kubernetes_namespace>
+```
+
+1. How would a new deployment look like for these services? What kind of tools would you use?
+[Refer to this diagram ](https://github.com/viallikavoo/tinjis/blob/master/pleo.png)
+2. If a developers needs to push updates to just one of the services, how can we grant that permission without allowing the same developer to deploy any other services running in K8s?
+- Use access control in your source control , for ex github. Only those having push access to the source code of this service would be able make changes and jenkins would deploy the changes to K8s
+3. How do we prevent other services running in the cluster to talk to your service. Only Antaeus should be able to do it.
+- Implemented in this solution using API Keys

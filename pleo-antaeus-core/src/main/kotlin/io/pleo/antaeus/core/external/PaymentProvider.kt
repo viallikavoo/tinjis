@@ -28,9 +28,10 @@ class PaymentProvider(
      */
 
     fun charge(invoice: Invoice): Boolean {
+        val backendVendorPaymentsApiKey = System.getenv("BACKEND_VENDOR_PAYMENTS_API_KEY") ?: "testkey"
         logger.info(this.paymentProviderRestEndpoint) { "payment endpoint" }
         return khttp
-                .post(url = this.paymentProviderRestEndpoint,
+                .post(url = this.paymentProviderRestEndpoint, headers=mapOf("X-API-Key" to backendVendorPaymentsApiKey),
                         json = mapOf(
                                 "currency" to invoice.amount.currency,
                                 "value" to invoice.amount.value,
