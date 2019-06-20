@@ -12,5 +12,5 @@ echo $CREATE_SECRET_COMMAND
 eval "$CREATE_SECRET_COMMAND"
 kubectl  apply -f kubernetes/parameters/test/params.yaml -n=${NAMESPACE}
 kubectl  apply -f kubernetes/templates/test/tinjis.yaml -n=${NAMESPACE}
-docker build -t viallikavoo/tinjis .
-docker push viallikavoo/tinjis:latest
+# docker build -t viallikavoo/tinjis .
+# docker push viallikavoo/tinjis:latest
